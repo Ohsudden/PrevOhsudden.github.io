@@ -1,6 +1,6 @@
 let tg = window.Telegram.Webapp;
 
-tg.expand()
+tg.expand();
 
 tg.MainButton.textColor = "#FFFFFF";
 tg.MainButton.color = "#2cab37";
@@ -14,75 +14,45 @@ let btn4 = document.getElementById("btn4");
 let btn5 = document.getElementById("btn5");
 let btn6 = document.getElementById("btn6");
 
-btn1.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Ви обрали товар 1!");
-		item = "1";
-		tg.MainButton.show();
-	}
+function updateMainButton(text) {
+    if (tg.MainButton.isVisible) {
+        tg.MainButton.hide();
+    } else {
+        tg.MainButton.setText(text);
+        tg.MainButton.show();
+    }
+}
+
+btn1.addEventListener("click", function() {
+    updateMainButton("Ви обрали товар 1!");
+    item = "1";
 });
 
-btn2.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Ви обрали товар 2!");
-		item = "2";
-		tg.MainButton.show();
-	}
+btn2.addEventListener("click", function() {
+    updateMainButton("Ви обрали товар 2!");
+    item = "2";
 });
 
-btn3.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Ви обрали товар 3!");
-		item = "3";
-		tg.MainButton.show();
-	}
+btn3.addEventListener("click", function() {
+    updateMainButton("Ви обрали товар 3!");
+    item = "3";
 });
 
-btn4.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Ви обрали товар 4!");
-		item = "4";
-		tg.MainButton.show();
-	}
+btn4.addEventListener("click", function() {
+    updateMainButton("Ви обрали товар 4!");
+    item = "4";
 });
 
-btn5.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Ви обрали товар 5!");
-		item = "5";
-		tg.MainButton.show();
-	}
+btn5.addEventListener("click", function() {
+    updateMainButton("Ви обрали товар 5!");
+    item = "5";
 });
 
-btn6.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Ви обрали товар 6!");
-		item = "6";
-		tg.MainButton.show();
-	}
+btn6.addEventListener("click", function() {
+    updateMainButton("Ви обрали товар 6!");
+    item = "6";
 });
 
-
-Telegram.WebApp.onEvent("mainButtonClicked", function(){
-	tg.sendData(item);
+Telegram.WebApp.onEvent("mainButtonClicked", function() {
+    tg.sendData(item);
 });
-
-
