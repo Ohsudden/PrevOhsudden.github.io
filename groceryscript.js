@@ -1,58 +1,38 @@
-let tg = window.Telegram.Webapp;
+let tg = window.Telegram.WebApp;
 
 tg.expand();
 
-tg.MainButton.textColor = "#FFFFFF";
-tg.MainButton.color = "#2cab37";
+if (tg.MainButton) {
+    console.log("MainButton initialized");
+    tg.MainButton.textColor = "#FFFFFF";
+    tg.MainButton.color = "#2cab37";
 
-let item = "";
+    let item = "";
 
-let btn1 = document.getElementById("btn1");
-let btn2 = document.getElementById("btn2");
-let btn3 = document.getElementById("btn3");
-let btn4 = document.getElementById("btn4");
-let btn5 = document.getElementById("btn5");
-let btn6 = document.getElementById("btn6");
-
-function updateMainButton(text) {
-    if (tg.MainButton.isVisible) {
-        tg.MainButton.hide();
-    } else {
-        tg.MainButton.setText(text);
-        tg.MainButton.show();
+    function setupButton(button, itemNumber) {
+        button.addEventListener("click", function(){
+            if (tg.MainButton.isVisible) {
+                tg.MainButton.hide();
+            } else {
+                tg.MainButton.setText(`Ви обрали товар ${itemNumber}!`);
+                item = itemNumber;
+                tg.MainButton.show();
+            }
+        });
     }
+
+    setupButton(document.getElementById("btn1"), "1");
+    setupButton(document.getElementById("btn2"), "2");
+    setupButton(document.getElementById("btn3"), "3");
+    setupButton(document.getElementById("btn4"), "4");
+    setupButton(document.getElementById("btn5"), "5");
+    setupButton(document.getElementById("btn6"), "6");
+
+    tg.onEvent("mainButtonClicked", function(){
+        console.log("MainButton clicked with item:", item);
+        tg.sendData(item);
+    });
+
+} else {
+    console.error("MainButton is not available. Make sure this code is running inside Telegram WebApp.");
 }
-
-btn1.addEventListener("click", function() {
-    updateMainButton("Ви обрали товар 1!");
-    item = "1";
-});
-
-btn2.addEventListener("click", function() {
-    updateMainButton("Ви обрали товар 2!");
-    item = "2";
-});
-
-btn3.addEventListener("click", function() {
-    updateMainButton("Ви обрали товар 3!");
-    item = "3";
-});
-
-btn4.addEventListener("click", function() {
-    updateMainButton("Ви обрали товар 4!");
-    item = "4";
-});
-
-btn5.addEventListener("click", function() {
-    updateMainButton("Ви обрали товар 5!");
-    item = "5";
-});
-
-btn6.addEventListener("click", function() {
-    updateMainButton("Ви обрали товар 6!");
-    item = "6";
-});
-
-Telegram.WebApp.onEvent("mainButtonClicked", function() {
-    tg.sendData(item);
-});
