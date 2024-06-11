@@ -63,11 +63,11 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="groceryscript.js"></script>
     <script>
-        var taskCompletion = [false, false, false, false]; // Track completion of each task
-        var taskRewards = [0.01, 0.02, 0.03, 0.04]; // Rewards for each task
+        var taskCompletion = [false, false, false, false]; 
+        var taskRewards = [0.01, 0.02, 0.03, 0.04]; 
 
-        // Initialize Swiper
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 2,
             centeredSlides: true,
@@ -79,7 +79,6 @@
             },
         });
 
-        // Handle task click events
         document.querySelectorAll('.swiper-slide').forEach((slide, index) => {
             slide.addEventListener('click', () => {
                 taskCompletion[index] = !taskCompletion[index];
@@ -88,7 +87,6 @@
             });
         });
 
-        // Check if all tasks are completed and show bonus message
         function checkBonus() {
             const allTasksCompleted = taskCompletion.every(status => status);
             const totalReward = taskCompletion.reduce((total, completed, index) => {
