@@ -59,6 +59,7 @@
                     <div id="bonus-message">Вітаю! Ви заробили бонус у розмірі <span id="total-reward">0.00</span> BTC!</div>
                 </div>
             </div>
+            <div id="connect">Connect Wallet</div>
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -97,5 +98,11 @@
             document.getElementById('bonus-message').style.display = allTasksCompleted ? 'block' : 'none';
         }
     </script>
+    <script>
+        const tonConnectUI = new TON_CONNECT_UI.tonConnectUI({
+        manifestUrl: 'https://ohsudden.github.io/tonconnect-manifest.json',
+        buttonRootId: 'connect'
+    });
+</script>
 </body>
 </html>
