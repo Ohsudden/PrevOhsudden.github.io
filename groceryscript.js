@@ -55,6 +55,9 @@ document.addEventListener("DOMContentLoaded", function() {
         manifestUrl: 'https://ohsudden.github.io/tonconnect-manifest.json',
         buttonRootId: 'connect'
     });
+    tonConnectUI.uiOptions = {
+        twaReturnUrl: 'https://t.me/super_grocery_store_bot'
+    };
 
     async function transaction(dailyQuestAmount) {
         const transaction = {

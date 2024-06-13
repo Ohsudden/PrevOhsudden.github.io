@@ -70,15 +70,11 @@
     async function connectToWallet() {
         try {
             const connectedWallet = await tonConnectUI.connectWallet();
-            // Do something with connectedWallet if needed
             console.log(connectedWallet);
         } catch (error) {
             console.error("Error connecting to wallet:", error);
         }
     }
-    tonConnectUI.uiOptions = {
-            twaReturnUrl: 'https://t.me/super_grocery_store_bot'
-        };
     </script>
 </body>
 </html>
