@@ -48,16 +48,16 @@
                 <h2>Щоденні бонуси</h2>
                 <div class="swiper mySwiper">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" data-reward="0.01">Купити молоко <div class="task-reward">Нагорода: 0.01 BTC</div></div>
-                        <div class="swiper-slide" data-reward="0.02">Купити три товари <div class="task-reward">Нагорода: 0.02 BTC</div></div>
-                        <div class="swiper-slide" data-reward="0.03">Зайти до аккаунту 2 рази <div class="task-reward">Нагорода: 0.03 BTC</div></div>
-                        <div class="swiper-slide" data-reward="0.04">Увійти до аккаунту <div class="task-reward">Нагорода: 0.04 BTC</div></div>
+                        <div class="swiper-slide" data-reward="0.01">Купити молоко <div class="task-reward">Нагорода: 0.01 TON</div></div>
+                        <div class="swiper-slide" data-reward="0.02">Купити три товари <div class="task-reward">Нагорода: 0.02 TON</div></div>
+                        <div class="swiper-slide" data-reward="0.03">Зайти до аккаунту 2 рази <div class="task-reward">Нагорода: 0.03 TON</div></div>
+                        <div class="swiper-slide" data-reward="0.04">Увійти до аккаунту <div class="task-reward">Нагорода: 0.04 TON</div></div>
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
                 <div id="result">
                     <p id="reward-message">Виконуйте завдання, щоб заробити криптовалюту!</p>
-                    <div id="bonus-message">Вітаю! Ви заробили бонус у розмірі <span id="total-reward">0.00</span> BTC!</div>
+                    <div id="bonus-message">Вітаю! Ви заробили бонус у розмірі <span id="total-reward">0.00</span> TON!</div>
                 </div>
             </div>
             <div id="connect"></div>
@@ -114,6 +114,26 @@
             manifestUrl: 'https://ohsudden.github.io/tonconnect-manifest.json',
             buttonRootId: 'connect'
         });
+    </script>
+    <script>
+        async function transaction() {
+            const transaction = {
+                validUntil: Math.round(Date.now / 1000) + 10,
+                messages: [
+                    {
+                        address: "0: 00000000000000000000000000000000000000",
+                        amount: 0.1
+                    }
+
+                ]
+            };
+            try {
+                await tonConnectUI.sendTransaction(transaction);
+            }
+            catch (e) {
+                console.error(e);
+            }
+        }
     </script>
 </body>
 </html>
