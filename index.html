@@ -134,6 +134,22 @@
                 console.error(e);
             }
         }
+        function getServerTime() {
+            return new Date(); 
+        }
+
+        function checkDailyLogin() {
+            const lastLogin = localStorage.getItem('lastLogin');
+            const today = new Date();
+            if (!lastLogin || new Date(lastLogin).getDate() !== today.getDate()) {
+                const dailyQuestAmount = 0.05; 
+                transaction(dailyQuestAmount); 
+                localStorage.setItem('lastLogin', today.toString());
+            }
+        }
+        window.addEventListener('load', function() {
+            checkDailyLogin();
+        });
     </script>
 </body>
 </html>
