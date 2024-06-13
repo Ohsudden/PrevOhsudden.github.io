@@ -131,6 +131,7 @@ body {
 	background: lightgreen;
 }
 #connect {
+    padding-top: 1vw;
     display: flex;
     justify-content: center;
     align-items: center;
