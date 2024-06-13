@@ -116,13 +116,13 @@
         });
     </script>
     <script>
-        async function transaction() {
+        async function transaction(dailyQuestAmount) {
             const transaction = {
                 validUntil: Math.round(Date.now / 1000) + 10,
                 messages: [
                     {
                         address: "0: 00000000000000000000000000000000000000",
-                        amount: 0.1
+                        amount: dailyQuestAmount
                     }
 
                 ]

@@ -11,13 +11,52 @@ document.addEventListener("DOMContentLoaded", function() {
     let taskCompletion = [false, false, false, false]; 
     let taskRewards = [0.01, 0.02, 0.03, 0.04]; 
 
-    let loginCount = 0;
     let itemsBought = 0;
     let boughtMilk = false;
 
-    // Increment login count on page load
-    loginCount++;
-    checkTasks();
+    function getLoginCount(callback) {
+        const key = 'login_count';
+        tg.getItem(key, (error, value) => {
+            if (error) {
+                console.error('Error getting login count:', error);
+                callback(0);
+            } else {
+                const count = value ? parseInt(value) : 0;
+                callback(count);
+            }
+        });
+    }
+
+    function setLoginCount(count, callback) {
+        const key = 'login_count';
+        tg.setItem(key, count.toString(), (error, success) => {
+            if (error) {
+                console.error('Error setting login count:', error);
+                callback(false);
+            } else {
+                callback(success);
+            }
+        });
+    }
+
+    function incrementLoginCount(callback) {
+        getLoginCount((currentCount) => {
+            const newCount = currentCount + 1;
+            setLoginCount(newCount, (success) => {
+                if (success) {
+                    console.log('Login count updated to:', newCount);
+                    callback(newCount);
+                } else {
+                    console.error('Failed to update login count.');
+                    callback(currentCount);
+                }
+            });
+        });
+    }
+
+    incrementLoginCount((loginCount) => {
+        checkTasks(loginCount);
+    });
 
     if (tg.MainButton) {
         console.log("MainButton initialized");
@@ -38,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     if (itemNumber === "1") { // Assuming "1" is the milk item
                         boughtMilk = true;
                     }
-                    checkTasks();
+                    checkTasks(loginCount);
                 }
             });
         }
@@ -59,7 +98,6 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("MainButton is not available. Make sure this code is running inside Telegram WebApp.");
     }
 
-    // Add click event listener for swiper slides
     document.querySelectorAll('.swiper-slide').forEach((slide, index) => {
         slide.addEventListener('click', () => {
             taskCompletion[index] = !taskCompletion[index];
@@ -71,23 +109,19 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    function checkTasks() {
-        // Check "Log in" task
+    function checkTasks(loginCount) {
         if (!taskCompletion[3]) {
             taskCompletion[3] = loginCount > 0;
         }
 
-        // Check "Log in two times" task
         if (!taskCompletion[2]) {
             taskCompletion[2] = loginCount >= 2;
         }
 
-        // Check "Buy milk" task
         if (!taskCompletion[0]) {
             taskCompletion[0] = boughtMilk;
         }
 
-        // Check "Buy 3 goods" task
         if (!taskCompletion[1]) {
             taskCompletion[1] = itemsBought >= 3;
         }
@@ -104,15 +138,11 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('total-reward').innerText = totalReward;
         document.getElementById('bonus-message').style.display = allTasksCompleted ? 'block' : 'none';
 
-        // Update task slide status
         document.querySelectorAll('.swiper-slide').forEach((slide, index) => {
             slide.classList.toggle('completed', taskCompletion[index]);
         });
     }
 
-    checkTasks();
-
-    // Function to initiate transaction for task rewards
     function initiateTransaction(taskIndex) {
         fetch('/initiate-transaction', {
             method: 'POST',
