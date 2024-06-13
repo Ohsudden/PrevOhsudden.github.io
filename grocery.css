@@ -130,3 +130,7 @@ body {
 .btn:hover {
 	background: lightgreen;
 }
+#connect {
+    padding: 1vw;
+    float:center;
+}
