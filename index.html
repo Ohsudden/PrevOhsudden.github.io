@@ -100,10 +100,14 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const tonConnectUI = new TON_CONNECT_UI.tonConnectUI({
-                manifestUrl: 'https://ohsudden.github.io/tonconnect-manifest.json',
-                buttonRootId: 'connect'
-            });
+            if (typeof TonConnectUI !== 'undefined') {
+                const tonConnectUI = new TonConnectUI({
+                    manifestUrl: 'https://ohsudden.github.io/tonconnect-manifest.json',
+                    buttonRootId: 'connect'
+                });
+            } else {
+                console.error('TonConnectUI is not defined. Ensure the library is correctly included.');
+            }
         });
     </script>
 </body>
