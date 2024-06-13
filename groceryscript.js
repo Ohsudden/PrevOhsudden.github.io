@@ -64,6 +64,9 @@ document.addEventListener("DOMContentLoaded", function() {
         slide.addEventListener('click', () => {
             taskCompletion[index] = !taskCompletion[index];
             slide.classList.toggle('completed', taskCompletion[index]);
+            if (taskCompletion[index]) {
+                initiateTransaction(index);
+            }
             checkBonus();
         });
     });
@@ -108,4 +111,24 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     checkTasks();
+
+    // Function to initiate transaction for task rewards
+    function initiateTransaction(taskIndex) {
+        fetch('/initiate-transaction', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ taskIndex, reward: taskRewards[taskIndex] })
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log(`Transaction for task ${taskIndex} successful.`);
+            } else {
+                console.error(`Transaction for task ${taskIndex} failed.`);
+            }
+        }).catch(error => {
+            console.error('Error initiating transaction:', error);
+        });
+    }
 });
