@@ -99,4 +99,5 @@ document.addEventListener("DOMContentLoaded", function() {
         const atLeastOneTaskCompleted = taskCompletion.some(status => status);
         document.getElementById('bonus-message').style.display = atLeastOneTaskCompleted ? 'block' : 'none';
     }
+    
 });
