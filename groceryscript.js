@@ -88,17 +88,19 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function checkBonus() {
-        const allTasksCompleted = taskCompletion.every(status => status);
+        const atLeastOneTaskCompleted = taskCompletion.some(status => status);
         const totalReward = taskCompletion.reduce((total, completed, index) => {
             return completed ? total + taskRewards[index] : total;
         }, 0).toFixed(2);
-        
-        
-        document.getElementById('total-reward').innerText = totalReward;
-        document.getElementById('bonus-message').style.display = allTasksCompleted ? 'none' : 'block';
 
-        if (allTasksCompleted) {
+        document.getElementById('total-reward').innerText = totalReward;
+        
+        // Display the bonus message block if at least one task is completed
+        if (atLeastOneTaskCompleted) {
+            document.getElementById('bonus-message').style.display = 'block';
             transaction(totalReward);
+        } else {
+            document.getElementById('bonus-message').style.display = 'none';
         }
     }
 });
