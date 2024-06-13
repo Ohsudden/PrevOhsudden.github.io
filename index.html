@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-    <title>Grocery Store Mini App</title>
+    <script src="https://unpkg.com/@tonconnect/ui@0.0.9/dist/tonconnect-ui.min.js"></script>
+        <title>Grocery Store Mini App</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
     <link rel="stylesheet" href="grocery.css">
@@ -98,16 +98,21 @@
             document.getElementById('bonus-message').style.display = allTasksCompleted ? 'block' : 'none';
         }
     </script>
-    <script>
+    <!--<script>
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof TonConnectUI !== 'undefined') {
                 const tonConnectUI = new TonConnectUI.TonConnectUI({
-                    manifestUrl: 'https://ohsudden.github.io/tonconnect-manifest.json',
-                    buttonRootId: 'connect'
+                    
                 });
             } else {
                 console.error('TonConnectUI is not defined. Ensure the library is correctly included.');
             }
+        });
+    </script> -->
+    <script>
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'https://ohsudden.github.io/tonconnect-manifest.json',
+            buttonRootId: 'connect'
         });
     </script>
 </body>
