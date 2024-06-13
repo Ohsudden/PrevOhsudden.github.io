@@ -48,8 +48,8 @@
                 <h2>Щоденні бонуси</h2>
                 <div class="swiper mySwiper">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" data-reward="0.01">Купити молоко <div class="task-reward">Нагорода: 0.01 TON</div></div>
-                        <div class="swiper-slide" data-reward="0.02">Купити три товари <div class="task-reward">Нагорода: 0.02 TON</div></div>
+                        <div class="swiper-slide" data-reward="0.01">Купити Ківі <div class="task-reward">Нагорода: 0.01 TON</div></div>
+                        <div class="swiper-slide" data-reward="0.02">Натиснути на кнопку додати 3 рази <div class="task-reward">Нагорода: 0.02 TON</div></div>
                         <div class="swiper-slide" data-reward="0.03">Зайти до аккаунту 2 рази <div class="task-reward">Нагорода: 0.03 TON</div></div>
                         <div class="swiper-slide" data-reward="0.04">Увійти до аккаунту <div class="task-reward">Нагорода: 0.04 TON</div></div>
                     </div>
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div id="connect"></div>
-            <button onclick="transaction(0.01)">Send TON</button>
+          <!-- <button onclick="transaction(0.01)">Send TON</button>--> 
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -77,7 +77,7 @@
             grabCursor: true,
             pagination: {
                 el: ".swiper-pagination",
-                clickable: true,
+                clickable: false,
             },
         });
 
