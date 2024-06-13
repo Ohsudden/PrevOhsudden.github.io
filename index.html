@@ -77,18 +77,17 @@
             grabCursor: true,
             pagination: {
                 el: ".swiper-pagination",
-                clickable: false,
+                clickable: true,
             },
         });
 
-        document.querySelectorAll('.swiper-slide').forEach((slide, index) => {
+        /* document.querySelectorAll('.swiper-slide').forEach((slide, index) => {
             slide.addEventListener('click', () => {
                 taskCompletion[index] = !taskCompletion[index];
                 slide.classList.toggle('completed', taskCompletion[index]);
                 checkBonus();
             });
-        });
-
+        }); */
         function checkBonus() {
             const allTasksCompleted = taskCompletion.every(status => status);
             const totalReward = taskCompletion.reduce((total, completed, index) => {
