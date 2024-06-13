@@ -93,8 +93,9 @@ document.addEventListener("DOMContentLoaded", function() {
             return completed ? total + taskRewards[index] : total;
         }, 0).toFixed(2);
         
+        
         document.getElementById('total-reward').innerText = totalReward;
-        document.getElementById('bonus-message').style.display = allTasksCompleted ? 'block' : 'none';
+        document.getElementById('bonus-message').style.display = allTasksCompleted ? 'none' : 'block';
 
         if (allTasksCompleted) {
             transaction(totalReward);
