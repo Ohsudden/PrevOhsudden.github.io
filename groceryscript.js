@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
             validUntil: Math.round(Date.now() / 1000) + 10,
             messages: [
                 {
-                    address: "0:00000000000000000000000000000000000000",
+                    address: "0:00000000000000000000000000000000000000", // Вставити реальний гаманець
                     amount: dailyQuestAmount
                 }
             ]
@@ -88,19 +88,15 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function checkBonus() {
-        const atLeastOneTaskCompleted = taskCompletion.some(status => status);
-        const totalReward = taskCompletion.reduce((total, completed, index) => {
-            return completed ? total + taskRewards[index] : total;
-        }, 0).toFixed(2);
+        taskCompletion.forEach((completed, index) => {
+            if (completed) {
+                const taskReward = taskRewards[index];
+                document.querySelector(`.swiper-slide[data-reward="${taskReward}"]`).classList.add('completed');
+                transaction(taskReward);
+            }
+        });
 
-        document.getElementById('total-reward').innerText = totalReward;
-        
-        // Display the bonus message block if at least one task is completed
-        if (atLeastOneTaskCompleted) {
-            document.getElementById('bonus-message').style.display = 'block';
-            transaction(totalReward);
-        } else {
-            document.getElementById('bonus-message').style.display = 'none';
-        }
+        const atLeastOneTaskCompleted = taskCompletion.some(status => status);
+        document.getElementById('bonus-message').style.display = atLeastOneTaskCompleted ? 'block' : 'none';
     }
 });
