@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     let tg = window.Telegram.WebApp;
-
     tg.expand();
 
     if (tg.MainButton) {
@@ -14,6 +13,8 @@ document.addEventListener("DOMContentLoaded", function() {
         tg.MainButton.color = "#2cab37";
 
         let item = "";
+        let addButtonClickCount = 0;
+        const addButtonClickTarget = 3;
 
         function setupButton(button, itemNumber) {
             button.addEventListener("click", function(){
@@ -23,6 +24,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     tg.MainButton.setText(`Ви обрали товар ${itemNumber}!`);
                     item = itemNumber;
                     tg.MainButton.show();
+                }
+
+                // Increment the add button click count
+                addButtonClickCount++;
+                if (addButtonClickCount >= addButtonClickTarget) {
+                    taskCompletion[1] = true; // Task to click add button 3 times
+                    document.getElementById("task-add-clicks").classList.add("completed");
+                    checkBonus();
                 }
             });
         }
@@ -38,8 +47,57 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log("MainButton clicked with item:", item);
             tg.sendData(item);
         });
-
     } else {
         console.error("MainButton is not available. Make sure this code is running inside Telegram WebApp.");
+    }
+
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+        manifestUrl: 'https://ohsudden.github.io/tonconnect-manifest.json',
+        buttonRootId: 'connect'
+    });
+
+    async function transaction(dailyQuestAmount) {
+        const transaction = {
+            validUntil: Math.round(Date.now() / 1000) + 10,
+            messages: [
+                {
+                    address: "0:00000000000000000000000000000000000000",
+                    amount: dailyQuestAmount
+                }
+            ]
+        };
+        try {
+            await tonConnectUI.sendTransaction(transaction);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    var taskCompletion = [false, false, false, false];
+    var taskRewards = [0.01, 0.02, 0.03, 0.04];
+
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 2,
+        centeredSlides: true,
+        spaceBetween: 20,
+        grabCursor: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: false,
+        },
+    });
+
+    function checkBonus() {
+        const allTasksCompleted = taskCompletion.every(status => status);
+        const totalReward = taskCompletion.reduce((total, completed, index) => {
+            return completed ? total + taskRewards[index] : total;
+        }, 0).toFixed(2);
+        
+        document.getElementById('total-reward').innerText = totalReward;
+        document.getElementById('bonus-message').style.display = allTasksCompleted ? 'block' : 'none';
+
+        if (allTasksCompleted) {
+            transaction(totalReward);
+        }
     }
 });
