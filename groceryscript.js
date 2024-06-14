@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
             validUntil: Math.round(Date.now() / 1000) + 10,
             messages: [
                 {
-                    address: "0:00000000000000000000000000000000000000", // Вставити реальний гаманець
+                    address: "0:0000000000000000000000000000000000000000000000000000000000000000", // нульовий адрес
                     amount: dailyQuestAmount
                 }
             ]
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     var taskCompletion = [false, false, false, false];
-    var taskRewards = [1, 2, 3, 4];
+    var taskRewards = [10000000, 10000000, 10000000, 10000000];
 
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 2,
