@@ -26,10 +26,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     tg.MainButton.show();
                 }
 
-                // Increment the add button click count
                 addButtonClickCount++;
                 if (addButtonClickCount >= addButtonClickTarget) {
-                    taskCompletion[1] = true; // Task to click add button 3 times
+                    taskCompletion[1] = true; 
                     document.getElementById("task-add-clicks").classList.add("completed");
                     checkBonus();
                 }
@@ -77,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     var taskCompletion = [false, false, false, false];
-    var taskRewards = [10000000, 10000000, 10000000, 10000000];
+    var taskRewards = [10000000, 10000000, 10000000];
 
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 2,
