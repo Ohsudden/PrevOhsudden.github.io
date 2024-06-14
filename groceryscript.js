@@ -7,6 +7,26 @@ document.addEventListener("DOMContentLoaded", function() {
     let tg = window.Telegram.WebApp;
     tg.expand();
 
+    async function fetchBalance() {
+        try {
+            const response = await fetch('/get_balance', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            document.getElementById('balance').textContent = data.balance.toFixed(2);
+        } catch (error) {
+            console.error('Error fetching balance:', error);
+        }
+    }
+
+    fetchBalance();
+
     if (tg.MainButton) {
         console.log("MainButton initialized");
         tg.MainButton.textColor = "#FFFFFF";
@@ -95,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const taskReward = taskRewards[index];
                 document.querySelector(`.swiper-slide[data-reward="${taskReward}"]`).classList.add('completed');
                 transaction(taskReward);
-                document.getElementById('total-reward').innerText = taskReward;
+                document.getElementById('total-reward').innerText = taskReward/Math.pow(10,8);
             }
         });
 
