@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     tg.MainButton.show();
                 }
 
-                // Increment the add button click count
                 addButtonClickCount++;
                 if (addButtonClickCount >= addButtonClickTarget) {
                     taskCompletion[1] = true; // Task to click add button 3 times
@@ -51,13 +50,20 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("MainButton is not available. Make sure this code is running inside Telegram WebApp.");
     }
 
-    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-        manifestUrl: 'https://ohsudden.github.io/tonconnect-manifest.json',
-        buttonRootId: 'connect'
-    });
-    tonConnectUI.uiOptions = {
-        twaReturnUrl: 'https://t.me/super_grocery_store_bot'
-    };
+    try {
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'https://ohsudden.github.io/tonconnect-manifest.json',
+            buttonRootId: 'connect'
+        });
+        console.log("Ton Connect UI initialized");
+
+        tonConnectUI.uiOptions = {
+            twaReturnUrl: 'https://t.me/super_grocery_store_bot'
+        };
+        console.log("Ton Connect UI options set:", tonConnectUI.uiOptions);
+    } catch (error) {
+        console.error("Error initializing Ton Connect UI:", error);
+    }
 
     async function transaction(dailyQuestAmount) {
         const transaction = {
@@ -77,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     var taskCompletion = [false, false, false, false];
-    var taskRewards = [0.01, 0.02, 0.03, 0.04];
+    var taskRewards = [1, 2, 3, 4];
 
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 2,
