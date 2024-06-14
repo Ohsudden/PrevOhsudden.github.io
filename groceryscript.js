@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     var taskCompletion = [false, false, false, false];
-    var taskRewards = [0.01, 0.02, 0.03, 0.04];
+    var taskRewards = [1, 2, 3, 4];
 
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 2,
