@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchUserBalance(userId) {
     try {
         console.log(`Fetching balance for user: ${userId}`);
-        const response = await fetch(`/get_balance/${userId}`);
+        const response = await fetch(`http://localhost:5000/get_balance/${userId}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
