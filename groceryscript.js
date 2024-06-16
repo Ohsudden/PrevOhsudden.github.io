@@ -7,15 +7,19 @@ document.addEventListener("DOMContentLoaded", function() {
     let tg = window.Telegram.WebApp;
     tg.expand();
 
-    const user = Telegram.WebApp.initDataUnsafe.user;
+    function connect(){
+        const user = Telegram.WebApp.initDataUnsafe.user;
 
-    if (user) {
-        console.log('User found:', user);
-        tg.sendData(user);
-    } else {
-        console.error('User not found');
-        document.getElementById('balance').textContent = 'Error: User not found';
+        if (user) {
+            console.log('User found:', user);
+            fetchUserBalance(user.id);
+        } else {
+            console.error('User not found');
+            document.getElementById('balance').textContent = 'Error: User not found';
+        }
     }
+
+    
 
     if (tg.MainButton) {
         console.log("MainButton initialized");
