@@ -83,7 +83,9 @@ function onTelegramWebAppReady() {
 async function fetchUserBalance(userId) {
     try {
         console.log(`Fetching balance for user: ${userId}`);
-        const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/get_balance/${userId}`);
+        const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/get_balance/${userId}`, {
+            redirect: 'follow' // This will follow redirects
+        });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
