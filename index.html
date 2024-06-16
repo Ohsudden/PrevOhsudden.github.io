@@ -61,6 +61,7 @@
                 </div>
             </div>
             <div id="connect"></div>
+            <button onclick="onTelegramWebAppReady()">Connect account</button>
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -78,9 +79,6 @@ function onTelegramWebAppReady() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    Telegram.WebApp.onEvent('ready', onTelegramWebAppReady);
-});
 
 
 
