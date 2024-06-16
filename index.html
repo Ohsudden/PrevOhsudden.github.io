@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div id="connect"></div>
-            <button onclick="connect()"></button>
+            <button onclick="connect()">Connect</button>
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -69,7 +69,17 @@
    <script>
 
 
+function connect(){
+        const user = Telegram.WebApp.initDataUnsafe.user;
 
+        if (user) {
+            console.log('User found:', user);
+            fetchUserBalance(user.id);
+        } else {
+            console.error('User not found');
+            document.getElementById('balance').textContent = 'Error: User not found';
+        }
+    }
 
 
 async function fetchUserBalance(userId) {
