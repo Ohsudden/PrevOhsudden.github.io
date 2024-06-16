@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     <title>Grocery Store Mini App</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
     <link rel="stylesheet" href="grocery.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 <body>
     <div id="app">
@@ -15,7 +16,6 @@
             <h1>Grocery Store</h1>
         </header>
         <main>
-            <script src="groceryscript.js"></script>
             <div class="container">
                 <div id="user-balance">Balance: <span id="balance">Loading...</span> TON</div>
                 <div class="inner">
@@ -63,32 +63,29 @@
             <div id="connect"></div>
         </main>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        function onTelegramWebAppReady() {
-            const user = Telegram.WebApp.initDataUnsafe.user;
-
-            if (user) {
-                fetchUserBalance(user.id);
-            } else {
-                document.getElementById('balance').textContent = 'Error: User not found';
-            }
-        }
-
         async function fetchUserBalance(userId) {
             try {
                 const response = await fetch(`/get_balance/${userId}`);
                 const data = await response.json();
-                document.getElementById('balance').textContent = data.balance + ' TON';
+                if (data.balance) {
+                    document.getElementById('balance').textContent = data.balance + ' TON';
+                } else {
+                    document.getElementById('balance').textContent = 'Error: Unable to fetch balance';
+                }
             } catch (error) {
                 console.error('Error fetching balance:', error);
                 document.getElementById('balance').textContent = 'Error';
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            Telegram.WebApp.onEvent('ready', onTelegramWebAppReady);
+        Telegram.WebApp.onEvent('ready', function() {
+            const user = Telegram.WebApp.initDataUnsafe.user;
+            if (user && user.id) {
+                fetchUserBalance(user.id);
+            } else {
+                document.getElementById('balance').textContent = 'Error: User not found';
+            }
         });
     </script>
 </body>
