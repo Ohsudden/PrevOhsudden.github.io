@@ -15,6 +15,7 @@
             <h1>Grocery Store</h1>
         </header>
         <main>
+            <script src="groceryscript.js"></script>
             <div class="container">
                 <div id="user-balance">Balance: <span id="balance">Loading...</span> TON</div>
                 <div class="inner">
@@ -65,24 +66,19 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        async function connectToWallet() {
-            const connectedWallet = await tonConnectUI.connectWallet();
-            console.log(connectedWallet);
+        function onTelegramWebAppReady() {
+            const user = Telegram.WebApp.initDataUnsafe.user;
+
+            if (user) {
+                fetchUserBalance(user.id);
+            } else {
+                document.getElementById('balance').textContent = 'Error: User not found';
+            }
         }
-        connectToWallet().catch(error => {
-            console.error("Error connecting to wallet:", error);
-        });
 
-        async function fetchUserBalance() {
+        async function fetchUserBalance(userId) {
             try {
-                const initData = window.Telegram.WebApp.initData || "";
-                const user = window.Telegram.WebApp.initDataUnsafe.user || {};
-
-                if (!user.id) {
-                    throw new Error('User ID not available');
-                }
-
-                const response = await fetch(`/get_balance/${user.id}`);
+                const response = await fetch(`/get_balance/${userId}`);
                 const data = await response.json();
                 document.getElementById('balance').textContent = data.balance + ' TON';
             } catch (error) {
@@ -91,8 +87,9 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', fetchUserBalance);
+        document.addEventListener('DOMContentLoaded', () => {
+            Telegram.WebApp.onEvent('ready', onTelegramWebAppReady);
+        });
     </script>
-    <script src="groceryscript.js"></script>
 </body>
 </html>
