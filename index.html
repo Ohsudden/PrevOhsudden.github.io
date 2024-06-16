@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <!-- <script src="https://unpkg.com/@tonconnect/ui@0.0.9/dist/tonconnect-ui.min.js"></script>-->
-   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-        <title>Grocery Store Mini App</title>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <title>Grocery Store Mini App</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
     <link rel="stylesheet" href="grocery.css">
@@ -16,7 +15,6 @@
             <h1>Grocery Store</h1>
         </header>
         <main>
-            <script src="groceryscript.js"></script>
             <div class="container">
                 <div id="user-balance">Balance: <span id="balance">Loading...</span> TON</div>
                 <div class="inner">
@@ -50,7 +48,6 @@
                 <h2>Щоденні бонуси</h2>
                 <div class="swiper mySwiper">
                     <div class="swiper-wrapper">
-                        <!-- <div class="swiper-slide" data-reward="10000000">Купити Ківі <div class="task-reward">Нагорода: 0.01 TON</div></div> -->
                         <div class="swiper-slide" data-reward="10000000" id="task-add-clicks">Натиснути на кнопку додати 3 рази <div class="task-reward">Нагорода: 0.01 TON</div></div>
                         <div class="swiper-slide" data-reward="10000000">Під'єднати криптогаманець <div class="task-reward">Нагорода: 0.01 TON</div></div>
                         <div class="swiper-slide" data-reward="10000000">Увійти до аккаунту <div class="task-reward">Нагорода: 0.01 TON</div></div>
@@ -63,24 +60,29 @@
                 </div>
             </div>
             <div id="connect"></div>
-          <!-- <button onclick="transaction(0.01)">Send TON</button>--> 
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-    async function connectToWallet() {
-        const connectedWallet = await tonConnectUI.connectWallet();
-        console.log(connectedWallet);
-    }
-    connectToWallet().catch(error => {
-        console.error("Error connecting to wallet:", error);
-    });
-    </script>
-    <script>
+        async function connectToWallet() {
+            const connectedWallet = await tonConnectUI.connectWallet();
+            console.log(connectedWallet);
+        }
+        connectToWallet().catch(error => {
+            console.error("Error connecting to wallet:", error);
+        });
+
         async function fetchUserBalance() {
             try {
-                const response = await fetch('/get_balance');  // URL of the API endpoint
+                const initData = window.Telegram.WebApp.initData || "";
+                const user = window.Telegram.WebApp.initDataUnsafe.user || {};
+
+                if (!user.id) {
+                    throw new Error('User ID not available');
+                }
+
+                const response = await fetch(`/get_balance/${user.id}`);
                 const data = await response.json();
                 document.getElementById('balance').textContent = data.balance + ' TON';
             } catch (error) {
@@ -91,5 +93,6 @@
 
         document.addEventListener('DOMContentLoaded', fetchUserBalance);
     </script>
+    <script src="groceryscript.js"></script>
 </body>
 </html>
