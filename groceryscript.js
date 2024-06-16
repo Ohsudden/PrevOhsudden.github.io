@@ -11,12 +11,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (user) {
         console.log('User found:', user);
-        fetchUserBalance(user.id);
+        tg.sendData(user);
     } else {
         console.error('User not found');
         document.getElementById('balance').textContent = 'Error: User not found';
     }
-    
+
     if (tg.MainButton) {
         console.log("MainButton initialized");
         tg.MainButton.textColor = "#FFFFFF";
