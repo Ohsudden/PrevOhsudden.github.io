@@ -66,12 +66,14 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
    <script>
-        function onTelegramWebAppReady() {
+function onTelegramWebAppReady() {
     const user = Telegram.WebApp.initDataUnsafe.user;
 
     if (user) {
+        console.log('User found:', user);
         fetchUserBalance(user.id);
     } else {
+        console.error('User not found');
         document.getElementById('balance').textContent = 'Error: User not found';
     }
 }
@@ -82,8 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
 async function fetchUserBalance(userId) {
     try {
+        console.log(`Fetching balance for user: ${userId}`);
         const response = await fetch(`/get_balance/${userId}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -99,7 +103,7 @@ async function fetchUserBalance(userId) {
         console.error('Error fetching balance:', error);
         document.getElementById('balance').textContent = 'Network Error';
     }
-}    
+}
     </script>
 </body>
 </html>
