@@ -92,8 +92,13 @@
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                // Since mode: 'no-cors' is used, response body won't be accessible
-                document.getElementById('balance').textContent = 'Balance fetch request sent';
+                const data = await response.json();
+                if (data.error) {
+                    console.error('Error from server:', data.error);
+                    document.getElementById('balance').textContent = 'Server Error';
+                    return;
+                }
+                document.getElementById('balance').textContent = data.balance + ' TON';
             } catch (error) {
                 console.error('Error fetching balance:', error);
                 document.getElementById('balance').textContent = 'Network Error';
@@ -104,7 +109,6 @@
             onTelegramWebAppReady();
         });
         </script>
-        
         
 </body>
 </html>
