@@ -1,9 +1,35 @@
 document.addEventListener("DOMContentLoaded", function() {
-    if (typeof window.Telegram === 'undefined' || typeof window.Telegram.WebApp === 'undefined') {
-        console.error("Telegram WebApp is not defined. Make sure this script runs inside Telegram.");
-        return;
+    Telegram.WebApp.onEvent('ready', onTelegramWebAppReady);
+    function onTelegramWebAppReady() {
+        const user = Telegram.WebApp.initDataUnsafe.user;
+    
+        if (user) {
+            console.log('User found:', user);
+            fetchUserBalance(user.id);
+        } else {
+            console.error('User not found');
+            document.getElementById('balance').textContent = 'Error: User not found';
+        }
     }
-
+    async function fetchUserBalance(userId) {
+        try {
+            console.log(`Fetching balance for user: ${userId}`);
+            const response = await fetch(`/get_balance/${userId}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            if (data.error) {
+                console.error('Error from server:', data.error);
+                document.getElementById('balance').textContent = 'Server Error';
+                return;
+            }
+            document.getElementById('balance').textContent = data.balance + ' TON';
+        } catch (error) {
+            console.error('Error fetching balance:', error);
+            document.getElementById('balance').textContent = 'Network Error';
+        }
+    }
     let tg = window.Telegram.WebApp;
     tg.expand();
 
