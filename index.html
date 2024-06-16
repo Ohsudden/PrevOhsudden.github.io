@@ -69,7 +69,7 @@
     <script>
         function onTelegramWebAppReady() {
             const user = Telegram.WebApp.initDataUnsafe.user;
-        
+
             if (user) {
                 console.log('User found:', user);
                 fetchUserBalance(user.id);
@@ -78,21 +78,21 @@
                 document.getElementById('balance').textContent = 'Error: User not found';
             }
         }
-        
-         function fetchUserBalance(userId) {
+
+        async function fetchUserBalance(userId) {
             try {
                 console.log(`Fetching balance for user: ${userId}`);
-                const response =  fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/get_balance/${userId}`, {
+                const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/get_balance/${userId}`, {
                     method: 'GET',
-                    mode: 'no-cors', // This disables CORS
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    mode: 'cors'
                 });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const data =  response.json();
+                const data = await response.json();
                 if (data.error) {
                     console.error('Error from server:', data.error);
                     document.getElementById('balance').textContent = 'Server Error';
@@ -104,11 +104,11 @@
                 document.getElementById('balance').textContent = 'Network Error';
             }
         }
-        
+
         document.addEventListener('DOMContentLoaded', (event) => {
             onTelegramWebAppReady();
         });
-        </script>
+    </script>
         
 </body>
 </html>
