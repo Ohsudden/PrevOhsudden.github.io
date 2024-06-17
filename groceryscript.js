@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const tg = window.Telegram.WebApp;
     tg.expand();
-
     userId = tg.initDataUnsafe.user.id;
     loginUser(userId);
 
-    
+    /*
+        */
     if (tg.MainButton) {
         console.log("MainButton initialized");
         tg.MainButton.textColor = "#FFFFFF";
