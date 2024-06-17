@@ -82,9 +82,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    var taskCompletion = [false, false, false, false];
-    var taskRewards = [10000000, 10000000, 10000000];
-
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 2,
         centeredSlides: true,
