@@ -4,13 +4,73 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
     }
 
-    let tg = window.Telegram.WebApp;
-    tg.expand();
+    let userId;
 
+    if (typeof window.Telegram !== 'undefined' && typeof window.Telegram.WebApp !== 'undefined') {
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        userId = tg.initDataUnsafe.user.id;
+
+        fetchUserQuestStatus(userId);
+    }
     
+    async function fetchUserQuestStatus(userId) {
+        try {
+            const response = await fetch(`https://your.server.url/get_quest_status/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            updateQuestUI(data.status);
+        } catch (error) {
+            console.error('Error fetching quest status:', error);
+        }
+    }
 
-    
+    function updateQuestUI(status) {
+        if (status['addClicks']) {
+            document.getElementById("task-add-clicks").classList.add("completed");
+        }
+        if (status['connectWallet']) {
+            document.getElementById("task-connect-wallet").classList.add("completed");
+        }
+        if (status['login']) {
+            document.getElementById("task-login").classList.add("completed");
+        }
+        checkBonus();
+    }
 
+    async function updateQuestStatus(userId, status) {
+        try {
+            const response = await fetch('https://your.server.url/update_quest_status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors',
+                body: JSON.stringify({
+                    user_id: userId,
+                    status: status
+                })
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            if (!data.success) {
+                throw new Error('Server error: update quest status failed');
+            }
+        } catch (error) {
+            console.error('Error updating quest status:', error);
+        }
+    }
     if (tg.MainButton) {
         console.log("MainButton initialized");
         tg.MainButton.textColor = "#FFFFFF";
@@ -35,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     taskCompletion[1] = true; 
                     document.getElementById("task-add-clicks").classList.add("completed");
                     checkBonus();
+                    updateQuestStatus(userId, { 'addClicks': true });
                 }
             });
         }
