@@ -49,16 +49,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     async function updateQuestStatus(userId, status) {
         try {
-            const response = await fetch('https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/update_quest_status/', {
+            const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/update_quest_status/${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 mode: 'cors',
-                body: JSON.stringify({
-                    user_id: userId,
-                    status: status
-                })
+                body: JSON.stringify({ status: status })
             });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
