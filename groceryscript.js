@@ -96,18 +96,5 @@ document.addEventListener("DOMContentLoaded", function() {
         },
     });
 
-    function checkBonus() {
-        taskCompletion.forEach((completed, index) => {
-            if (completed) {
-                const taskReward = taskRewards[index];
-                document.querySelector(`.swiper-slide[data-reward="${taskReward}"]`).classList.add('completed');
-                transaction(taskReward);
-                document.getElementById('total-reward').innerText = taskReward/Math.pow(10,8);
-            }
-        });
-
-        const atLeastOneTaskCompleted = taskCompletion.some(status => status);
-        document.getElementById('bonus-message').style.display = atLeastOneTaskCompleted ? 'block' : 'none';
-    }
     
 });
