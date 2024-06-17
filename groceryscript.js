@@ -14,28 +14,28 @@ document.addEventListener("DOMContentLoaded", function() {
         loginUser(userId);
     }
 
-    function loginUser(userId) {
-        fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/login/${userId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ user_id: userId })
-        })
-        .then(response => {
+    async function loginUser(userId) {
+        try {
+            const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/login/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors',
+            });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Login successful:', data);
-            // Handle successful login response here
-        })
-        .catch(error => {
+            
+            const data = await response.json();
+            if (data.success) {
+                fetchUserQuestStatus(userId);
+            } else {
+                console.error('Error logging in:', data);
+            }
+        } catch (error) {
             console.error('Error logging in:', error);
-            // Handle error (e.g., show error message to user)
-        });
+        }
     }
     
     async function fetchUserQuestStatus(userId) {
