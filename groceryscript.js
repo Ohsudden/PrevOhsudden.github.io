@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const tg = window.Telegram.WebApp;
     tg.expand();
+    userId = tg.initDataUnsafe.user.id;
+    loginUser(userId);
 
     /*
         */
