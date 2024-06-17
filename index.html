@@ -69,7 +69,7 @@
     <script>
         let taskCompletion = [false, false, false, false];
         const taskRewards = [10000000, 10000000, 10000000];
-        
+
         function onTelegramWebAppReady() {
             const user = Telegram.WebApp.initDataUnsafe.user;
 
@@ -112,86 +112,102 @@
             onTelegramWebAppReady();
         });
 
-        
+        async function loginUser(userId) {
+            try {
+                const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/login/${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'cors',
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
-    async function loginUser(userId) {
-        try {
-            const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/login/${userId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                mode: 'cors',
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+                if (data.success) {
+                    fetchUserQuestStatus(userId);
+                } else {
+                    console.error('Error logging in:', data);
+                }
+            } catch (error) {
+                console.error('Error logging in:', error);
             }
-            
-            const data = await response.json();
-            if (data.success) {
-                fetchUserQuestStatus(userId);
-            } else {
-                console.error('Error logging in:', data);
-            }
-        } catch (error) {
-            console.error('Error logging in:', error);
         }
-    }
 
-    async function fetchUserQuestStatus(userId) {
-        try {
-            const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/get_quest_status/${userId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                mode: 'cors'
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+        async function fetchUserQuestStatus(userId) {
+            try {
+                const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/get_quest_status/${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'cors'
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                updateQuestUI(data.status);
+            } catch (error) {
+                console.error('Error fetching quest status:', error);
             }
-            const data = await response.json();
-            updateQuestUI(data.status);
-        } catch (error) {
-            console.error('Error fetching quest status:', error);
         }
-    }
 
-    function updateQuestUI(status) {
-        if (status['addClicks']) {
-            document.getElementById("task-add-clicks").classList.add("completed");
+        function updateQuestUI(status) {
+            if (status['addClicks']) {
+                document.getElementById("task-add-clicks").classList.add("completed");
+            }
+            if (status['connectWallet']) {
+                document.getElementById("task-connect-wallet").classList.add("completed");
+            }
+            if (status['login']) {
+                document.getElementById("task-login").classList.add("completed");
+            }
+            checkBonus();
         }
-        if (status['connectWallet']) {
-            document.getElementById("task-connect-wallet").classList.add("completed");
-        }
-        if (status['login']) {
-            document.getElementById("task-login").classList.add("completed");
-        }
-        checkBonus();
-    }
 
-    async function updateQuestStatus(userId, status) {
-        try {
-            const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/update_quest_status/${userId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                mode: 'cors',
-                body: JSON.stringify({ status: status })
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+        async function updateQuestStatus(userId, status) {
+            try {
+                const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/update_quest_status/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'cors',
+                    body: JSON.stringify({ status: status })
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                if (!data.success) {
+                    throw new Error('Server error: update quest status failed');
+                }
+            } catch (error) {
+                console.error('Error updating quest status:', error);
             }
-            const data = await response.json();
-            if (!data.success) {
-                throw new Error('Server error: update quest status failed');
-            }
-        } catch (error) {
-            console.error('Error updating quest status:', error);
         }
-    }
-    function checkBonus() {
+
+        async function transaction(dailyQuestAmount) {
+            const transaction = {
+                validUntil: Math.round(Date.now() / 1000) + 10,
+                messages: [
+                    {
+                        address: "0:0000000000000000000000000000000000000000000000000000000000000000", // нульовий адрес
+                        amount: dailyQuestAmount
+                    }
+                ]
+            };
+            try {
+                await tonConnectUI.sendTransaction(transaction);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function checkBonus() {
             taskCompletion.forEach((completed, index) => {
                 if (completed) {
                     const taskReward = taskRewards[index];
