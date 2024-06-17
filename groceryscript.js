@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     async function fetchUserQuestStatus(userId) {
         try {
-            const response = await fetch(`https://your.server.url/get_quest_status/${userId}`, {
+            const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/get_quest_status/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     async function updateQuestStatus(userId, status) {
         try {
-            const response = await fetch('https://your.server.url/update_quest_status', {
+            const response = await fetch('https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/update_quest_status/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
