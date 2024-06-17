@@ -11,8 +11,31 @@ document.addEventListener("DOMContentLoaded", function() {
         tg.expand();
 
         userId = tg.initDataUnsafe.user.id;
+        loginUser(userId);
+    }
 
-        fetchUserQuestStatus(userId);
+    async function loginUser(userId) {
+        try {
+            const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/login/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors',
+                body: JSON.stringify({ user_id: userId })
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            if (data.success) {
+                fetchUserQuestStatus(userId);
+            } else {
+                console.error('Error logging in:', data);
+            }
+        } catch (error) {
+            console.error('Error logging in:', error);
+        }
     }
     
     async function fetchUserQuestStatus(userId) {
