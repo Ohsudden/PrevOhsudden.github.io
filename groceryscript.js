@@ -214,15 +214,14 @@ document.addEventListener("DOMContentLoaded", async function() {
         checkBonus();
     }
 
-    async function updateQuestStatus(userId, status) {
+    async function updateQuestStatus(userId) {
         try {
             const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/update_quest_status/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                mode: 'cors',
-                body: JSON.stringify({ status: status })
+                mode: 'cors'
             });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
