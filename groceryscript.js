@@ -1,4 +1,8 @@
-
+document.addEventListener("DOMContentLoaded", function() {
+    if (typeof window.Telegram === 'undefined' || typeof window.Telegram.WebApp === 'undefined') {
+        console.error("Telegram WebApp is not defined. Make sure this script runs inside Telegram.");
+        return;
+    }
 
     let userId;
 
@@ -106,4 +110,4 @@
         document.getElementById('bonus-message').style.display = atLeastOneTaskCompleted ? 'block' : 'none';
     }
     
-
+});
