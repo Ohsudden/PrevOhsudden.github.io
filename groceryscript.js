@@ -202,13 +202,13 @@ document.addEventListener("DOMContentLoaded", async function() {
     }
 
     function updateQuestUI(status) {
-        if (status['addClicks']) {
+        if (status['1']) {
             document.getElementById("task-add-clicks").classList.add("completed");
         }
-        if (status['connectWallet']) {
+        if (status['2']) {
             document.getElementById("task-connect-wallet").classList.add("completed");
         }
-        if (status['login']) {
+        if (status['3']) {
             document.getElementById("task-login").classList.add("completed");
         }
         checkBonus();
