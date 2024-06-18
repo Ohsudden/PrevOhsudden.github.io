@@ -65,25 +65,10 @@ document.addEventListener("DOMContentLoaded", function() {
         twaReturnUrl: 'https://t.me/super_grocery_store_bot'
     };
 
-    async function transaction(dailyQuestAmount) {
-        const transaction = {
-            validUntil: Math.round(Date.now() / 1000) + 10,
-            messages: [
-                {
-                    address: "0:0000000000000000000000000000000000000000000000000000000000000000", // нульовий адрес
-                    amount: dailyQuestAmount
-                }
-            ]
-        };
-        try {
-            await tonConnectUI.sendTransaction(transaction);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    
 
-    var taskCompletion = [false, false, false, false];
-    var taskRewards = [10000000, 10000000, 10000000];
+    
+ 
 
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 2,
@@ -96,18 +81,40 @@ document.addEventListener("DOMContentLoaded", function() {
         },
     });
 
-    function checkBonus() {
-        taskCompletion.forEach((completed, index) => {
-            if (completed) {
-                const taskReward = taskRewards[index];
-                document.querySelector(`.swiper-slide[data-reward="${taskReward}"]`).classList.add('completed');
-                transaction(taskReward);
-                document.getElementById('total-reward').innerText = taskReward/Math.pow(10,8);
-            }
-        });
-
-        const atLeastOneTaskCompleted = taskCompletion.some(status => status);
-        document.getElementById('bonus-message').style.display = atLeastOneTaskCompleted ? 'block' : 'none';
-    }
+    
     
 });
+
+async function transaction(dailyQuestAmount) {
+    const transaction = {
+        validUntil: Math.round(Date.now() / 1000) + 10,
+        messages: [
+            {
+                address: "0:0000000000000000000000000000000000000000000000000000000000000000", // нульовий адрес
+                amount: dailyQuestAmount
+            }
+        ]
+    };
+    try {
+        await tonConnectUI.sendTransaction(transaction);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+var taskCompletion = [false, false, false, false];
+var taskRewards = [10000000, 10000000, 10000000];
+function checkBonus() {
+    taskCompletion.forEach((completed, index) => {
+        if (completed) {
+            const taskReward = taskRewards[index];
+            document.querySelector(`.swiper-slide[data-reward="${taskReward}"]`).classList.add('completed');
+            transaction(taskReward);
+            document.getElementById('total-reward').innerText = taskReward/Math.pow(10,8);
+        }
+    });
+
+    const atLeastOneTaskCompleted = taskCompletion.some(status => status);
+    document.getElementById('bonus-message').style.display = atLeastOneTaskCompleted ? 'block' : 'none';
+    
+}
