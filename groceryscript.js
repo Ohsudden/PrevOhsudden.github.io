@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         statusList.forEach(task => {
             const taskId = task.idofTask.toString(); // Assuming idofTask is an integer
             const status = task.status;
-            if (status) {
+            if (status==1) {
                 document.getElementById(`task-${taskId}`).classList.add("completed");
             }
         });
