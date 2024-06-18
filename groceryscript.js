@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async function() {
                     taskCompletion[1] = true; 
                     document.getElementById("task-add-clicks").classList.add("completed");
                     checkBonus();
-                    updateQuestStatus(userId, 1, True);
+                    updateQuestStatus(userId, 1, true);
                 }
             });
         }
