@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async function() {
                     taskCompletion[1] = true; 
                     document.getElementById("task-add-clicks").classList.add("completed");
                     checkBonus();
-                    updateQuestStatus(userId, { 'addClicks': true });
+                    updateQuestStatus(userId, 1, { 'addClicks': true });
                 }
             });
         }
@@ -214,26 +214,48 @@ document.addEventListener("DOMContentLoaded", async function() {
         checkBonus();
     }
 
-    async function updateQuestStatus(userId) {
-        try {
-            const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/update_quest_status/${userId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                mode: 'cors'
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            if (!data.success) {
-                throw new Error('Server error: update quest status failed');
-            }
-        } catch (error) {
-            console.error('Error updating quest status:', error);
+    async function updateQuestStatus(userId, idofTask, status) {
+    try {
+        const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/update_quest_status/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify({ idofTask: idofTask, status: status })
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error('Server error: update quest status failed');
+        }
+    } catch (error) {
+        console.error('Error updating quest status:', error);
     }
+}
+async function updateQuestStatus(userId, idofTask, status) {
+    try {
+        const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/update_quest_status/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify({ idofTask: idofTask, status: status })
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error('Server error: update quest status failed');
+        }
+    } catch (error) {
+        console.error('Error updating quest status:', error);
+    }
+}
 
     onTelegramWebAppReady();
 });
