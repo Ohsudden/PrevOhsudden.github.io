@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async function() {
                 addButtonClickCount++;
                 if (addButtonClickCount >= addButtonClickTarget) {
                     taskCompletion[1] = true; 
-                    document.getElementById("task-add-clicks").classList.add("completed");
+                    document.getElementById("task-1").classList.add("completed");
                     checkBonus();
                     updateQuestStatus(userId, 1, true);
                 }
@@ -200,19 +200,18 @@ document.addEventListener("DOMContentLoaded", async function() {
             console.error('Error fetching quest status:', error);
         }
     }
-
-    function updateQuestUI(status) {
-        if (status['1']) {
-            document.getElementById("task-add-clicks").classList.add("completed");
-        }
-        if (status['2']) {
-            document.getElementById("task-connect-wallet").classList.add("completed");
-        }
-        if (status['3']) {
-            document.getElementById("task-login").classList.add("completed");
-        }
+    
+    function updateQuestUI(statusList) {
+        statusList.forEach(task => {
+            const taskId = task.idofTask.toString(); // Assuming idofTask is an integer
+            const status = task.status;
+            if (status) {
+                document.getElementById(`task-${taskId}`).classList.add("completed");
+            }
+        });
         checkBonus();
     }
+    
 
     async function updateQuestStatus(userId, idofTask, status) {
     try {
