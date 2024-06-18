@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     async function updateQuestStatus(userId, status) {
         try {
             const response = await fetch(`https://bug-free-space-fishstick-556p94gjjrp2p6gp-5000.app.github.dev/update_quest_status/${userId}`, {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 },
