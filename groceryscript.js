@@ -81,27 +81,22 @@ document.addEventListener("DOMContentLoaded", function() {
         },
     });
 
-    
-    
-});
-
-async function transaction(dailyQuestAmount) {
-    const transaction = {
-        validUntil: Math.round(Date.now() / 1000) + 10,
-        messages: [
-            {
-                address: "0:0000000000000000000000000000000000000000000000000000000000000000", // нульовий адрес
-                amount: dailyQuestAmount
-            }
-        ]
-    };
-    try {
-        await tonConnectUI.sendTransaction(transaction);
-    } catch (e) {
-        console.error(e);
+    async function transaction(dailyQuestAmount) {
+        const transaction = {
+            validUntil: Math.round(Date.now() / 1000) + 10,
+            messages: [
+                {
+                    address: "0:0000000000000000000000000000000000000000000000000000000000000000", // нульовий адрес
+                    amount: dailyQuestAmount
+                }
+            ]
+        };
+        try {
+            await tonConnectUI.sendTransaction(transaction);
+        } catch (e) {
+            console.error(e);
+        }
     }
-}
-
 var taskCompletion = [false, false, false, false];
 var taskRewards = [10000000, 10000000, 10000000];
 function checkBonus() {
@@ -118,3 +113,7 @@ function checkBonus() {
     document.getElementById('bonus-message').style.display = atLeastOneTaskCompleted ? 'block' : 'none';
     
 }
+
+    
+});
+
