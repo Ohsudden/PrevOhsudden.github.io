@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", async function() {
                 const taskReward = taskRewards[index];
                 document.querySelector(`.swiper-slide[data-reward="${taskReward}"]`).classList.add('completed');
                 transaction(taskReward);
-                document.getElementById('total-reward').innerText = taskReward / Math.pow(10, 8);
+                document.getElementById('total-reward').innerText = taskReward / Math.pow(10, 9);
             }
         });
 
