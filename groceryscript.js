@@ -171,6 +171,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             const data = await response.json();
             if (data.success) {
                 fetchUserQuestStatus(userId);
+                updateQuestStatus(userId, 3, true);
             } else {
                 console.error('Error logging in:', data);
             }
