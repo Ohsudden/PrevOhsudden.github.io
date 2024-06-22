@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", async function() {
-    // Ensure Telegram WebApp is defined
     if (typeof window.Telegram === 'undefined' || typeof window.Telegram.WebApp === 'undefined') {
         console.error("Telegram WebApp is not defined. Make sure this script runs inside Telegram.");
         return;
@@ -9,7 +8,6 @@ document.addEventListener("DOMContentLoaded", async function() {
     tg.expand();
     let userId;
 
-    // Attempt to initialize user
     try {
         userId = tg.initDataUnsafe.user.id;
         await loginUser(userId);
@@ -18,7 +16,6 @@ document.addEventListener("DOMContentLoaded", async function() {
         return;
     }
 
-    // MainButton functionality
     if (tg.MainButton) {
         console.log("MainButton initialized");
         tg.MainButton.textColor = "#FFFFFF";
@@ -63,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         console.error("MainButton is not available. Make sure this code is running inside Telegram WebApp.");
     }
 
-    // TON Connect UI setup
+
     const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
         manifestUrl: 'https://ohsudden.github.io/tonconnect-manifest.json',
         buttonRootId: 'connect'
@@ -72,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         twaReturnUrl: 'https://t.me/super_grocery_store_bot'
     };
 
-    // Swiper initialization
+
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 2,
         centeredSlides: true,
@@ -119,7 +116,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         document.getElementById('bonus-message').style.display = atLeastOneTaskCompleted ? 'block' : 'none';
     }
 
-    // Telegram WebApp ready function
+
     function onTelegramWebAppReady() {
         const user = tg.initDataUnsafe.user;
 
@@ -203,7 +200,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     
     function updateQuestUI(statusList) {
         statusList.forEach(task => {
-            const taskId = task.idofTask.toString(); // Assuming idofTask is an integer
+            const taskId = task.idofTask.toString(); 
             const status = task.status;
             if (status==1) {
                 document.getElementById(`task-${taskId}`).classList.add("completed");
